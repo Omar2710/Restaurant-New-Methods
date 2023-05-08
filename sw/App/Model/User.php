@@ -1,0 +1,135 @@
+<?php
+
+class User{
+	private $fullName;
+	private $userName;
+    private $email;
+	private $password;
+    private $address;
+    private $phoneNumber;
+    private $tablename;
+    private $activeStatues;
+    public $db; // latest one
+
+    function __constuct($data){
+        $this->fullName = $data['fullName'];
+        $this->email = $data['email'];
+        $this->password = $data['password'];
+        $this->userName = $data['username'];
+        $this->address = $data['address'];
+        $this->phoneNumber = $data['phone'];
+        $this->tablename = "users";
+
+    }
+
+	public static function login($username,$pass){
+		include_once "Database2.php";
+        include_once "../../Global/vars.php"; 
+        $var = vars::getVars();
+		$dbo = new Database($var);
+
+		$login = self::getDataToLogin($username,$pass,$dbo);
+
+        return $login;
+	}
+
+
+
+    //Get date to user From the databas
+    public static function getDataToLogin($username,$pass){
+        include_once "Database2.php";
+        include_once "../../Global/vars.php"; 
+        $var = vars::getVars();
+        $dbo = new Database($var);
+        $db = $dbo->db;
+            
+        $stmt = $db->prepare(" SELECT * FROM users WHERE Username = ? AND Password = ? LIMIT 1" );
+            $stmt->execute(array($username,$pass));
+            //$stmt->execute(array('menna',123));
+            $cont = $stmt->rowCount();
+            $row  = $stmt->fetch();
+
+            //echo $groupID;
+            //check if user exist or not 
+            if($cont > 0){
+                return true; 
+            }
+            else{
+              throw new exception("user not found");
+            }
+    }
+
+    public static function getPassword($email){
+         include_once "Database2.php";
+         include_once "../../Global/vars.php";
+            $var = vars::getVars();
+            $dbo = new Database($var);
+            $db = $dbo->db;
+          
+
+            $stmt = $db->prepare(" SELECT Password FROM users WHERE Email = '$email' ");
+            $stmt->execute();
+            $cont = $stmt->rowCount();
+            $row  = $stmt->fetch();
+           
+            if($cont > 0){
+                return $row;
+
+            }else{
+                 return -1;
+            }
+    }
+
+    public static function getUserData($id){
+        include_once "Database2.php";
+        include_once "../../../Global/vars.php";
+            $var = vars::getVars();
+            $dbo = new Database($var);
+            $db = $dbo->db;
+          
+
+            $stmt = $db->prepare(" SELECT * FROM users WHERE id = $id" );
+            $stmt->execute();
+            $row  = $stmt->fetch();
+            return $row;
+    } 
+
+    public static function getUserDataByName($name){
+        include_once "Database2.php";
+        include_once "../../../Global/vars.php";
+            $var = vars::getVars();
+            $dbo = new Database($var);
+            $db = $dbo->db;
+          
+
+            $stmt = $db->prepare(" SELECT * FROM users WHERE Username = '$name' ");
+            $stmt->execute();
+            $row  = $stmt->fetch();
+            return $row;
+    } 
+
+
+    
+    public static function getGroupID($username,$pass){
+    		$var = vars::getVars();
+            $dbo = new Database($var);
+            $db = $dbo->db;
+            $stmt = $db->prepare(" SELECT * FROM users WHERE Username = ? AND Password = ? LIMIT 1" );
+            
+            $stmt->execute(array($username,$pass));
+            //$stmt->execute(array('menna',123));
+            
+            $row  = $stmt->fetch();
+           // echo $row['GroupID'];
+            
+            $GroupID = $row['ID'];
+            return $GroupID;
+    }
+
+        //Display profile
+    
+
+}
+
+
+?>

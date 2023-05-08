@@ -1,4 +1,10 @@
+<?php
+ session_start();
+$_SESSION['url'] = '../../app';
+include "../Tempelates/header.php"; 
 
+
+?> 
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap2-login100 p-l-55 p-r-55 p-t-65 p-b-54">
@@ -7,6 +13,13 @@
 					<span class="login100-form-title p-b-49">
 						Register
 					</span>
+
+					<?php 
+							if(isset($_GET['msg'])){
+								 echo $_GET['msg'];
+								} 
+							?>
+
 					<div class="wrap-input100 validate-input" data-validate = "FullName is reauired">
 						<span class="label-input100" name="fullName">Full Name</span>
 						<input class="input100" required="required" type="text" name="fullName" placeholder="Type your Full Name" pattern="[A-Za-z].{5,}" title="at leaset 5 letters with Your name">
@@ -47,6 +60,17 @@
 					<br>	
 					
 				</tr>
+				</div>
+					<br>	
+					
+				</tr>
+					 <div class="text-right p-t-8 p-b-31"> 
+							
+						<a href="../../App/Controller/LoginController.php?action=forget"> phpmailer to send new password 
+							 Forgot password? 
+						 </a> 
+					 </div> 
+
 					<div class="container-login100-form-btn">
 						<div class="wrap-login100-form-btn">
 							<div class="login100-form-bgbtn"></div>
@@ -78,6 +102,14 @@
 							<i class="fa fa-google"></i>
 						</a>
 					</div>
+					<div class="txt1 text-center p-t-54 p-b-20">
+							<span>
+								<a href="../../Global/Login View.php" class="txt2"> 
+								 Login 
+								 </a> 
+							 </span>
+							
+						</div>
 				</form>
 			</div>
 		</div>
