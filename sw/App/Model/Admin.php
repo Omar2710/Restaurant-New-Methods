@@ -1,0 +1,22 @@
+public static function searchUser($name){
+        self::ConnectToDB();
+        $tableName = "users";
+        if($name != 'admin'){
+
+                $query = "SELECT * FROM $tableName WHERE Username = '$name' ";
+                $stmt = self::$db->prepare($query);
+                $stmt->execute();
+                $cont = $stmt->rowCount();
+                $row  = $stmt->fetch();
+                if($cont > 0){
+                    return $row;
+                }
+                else{
+                  return 0;
+                }
+            }else{
+                return 0;
+            }
+            
+         
+    }
