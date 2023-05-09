@@ -36,17 +36,5 @@ if ($_POST OR @$_GET['action']) {
     }
     
 //////////////////////////////////////////////////////////////////////////////
-
-      //View Update Profile :
-     if (isset($_GET['action']) AND $_GET['action'] == "UpdateProfile")
-     {
-         $date = User::DisplayProfile($_SESSION['GroupID']); // either visitor or admin
-        include '../../../Global/Profile.php';
-    }
-
- else {
-    header("Refresh:0");
-    header('Location:../../../Global/redirect.php');
-}
 }
 ?>
