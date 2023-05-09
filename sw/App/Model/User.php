@@ -129,7 +129,33 @@ class User{
         //Display profile
     
 
+ //Update profile
+ public static function UpdateProfile($date,$ID){
+           
+    include_once "../../Model/Database2.php";
+    include_once "../../../Global/vars.php"; 
+    $var = vars::getVars();
+    $dba = new Database($var);
+    $query = "UPDATE users SET ";        
+    foreach ($date as $key => $value) {
+        $query .= "`".$key."` = '".$value."', ";
+    }             
+    $pat = "+-0*/";
+    $query .= $pat;        
+    $query = str_replace(", ".$pat, " ", $query);                             
+    $query .= " WHERE id = $ID";
+   
+    $stmt = $dba->db->prepare($query);
+    
+    $stmt->execute();
+
+if($stmt == true){
+    return true;
+}else{
+    throw exception('Can not Update');
 }
 
+}
+}
 
 ?>
