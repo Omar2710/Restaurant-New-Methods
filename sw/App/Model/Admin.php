@@ -37,6 +37,16 @@ public static function searchUser($name){
             
          
     }
+
+    public static function DisplayAllUsers(){ // gets table name and display all its datas
+        self::ConnectToDB();
+        $tablename = "users";
+        $sql = "SELECT * from $tablename where ID != 1";
+        $stmt = self::$db->prepare($sql);
+        $stmt->execute();
+        $rows=$stmt->fetchAll();
+        return $rows;
+    }
 }
 
 
