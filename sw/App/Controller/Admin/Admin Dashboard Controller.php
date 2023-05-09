@@ -1,7 +1,7 @@
 
 <?php
 //session_start();
-  //  include_once '../../Model/User.php';
+    include_once '../../Model/User.php';
     //include_once '../../Model/Order.php'; 
     //include_once '../../Model/OrderFoodItem.php';
 
@@ -96,7 +96,7 @@ if (isset($_POST['submit']) && $_POST['submit'] == "Edit profile")
        echo $exc->getMessage();
    }    
 }
-
+}
  else {
 header("Refresh:0");
 header('Location:../../../Global/redirect.php');
