@@ -39,10 +39,6 @@ if (isset($_GET['action']) AND $_GET['action'] == "display_user") {
     } catch (Exception $exc) {
         echo $exc->getMessage();
     }
-}
-
-
-
-else{
+} else{
     header('Location:../../../Global/redirect.php');
 }
