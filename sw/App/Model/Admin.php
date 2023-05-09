@@ -1,4 +1,3 @@
-
 <?php
 
 class Admin{
@@ -49,6 +48,6 @@ public static function searchUser($name){
     }
 }
 
-
 ?>
+
 

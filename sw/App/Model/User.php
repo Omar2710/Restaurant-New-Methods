@@ -125,10 +125,60 @@ class User{
             $GroupID = $row['ID'];
             return $GroupID;
     }
-
-        //Display profile
     
+ //Display profile
+ public static function DisplayProfile($id){
+        
+    include_once "../../Model/Database2.php";
+    include_once "../../../Global/vars.php"; 
+    $var = vars::getVars();
+    $dba = new Database($var);
+    $tablename = "users";
+    $query = "SELECT * FROM $tablename WHERE ID = '$id' ";
+   
+    $stmt = $dba->db->prepare($query);
+    $stmt->execute();
+    $cont = $stmt->rowCount();
+    $row  = $stmt->fetch();
+   
+    if($cont > 0){
 
+        return $row;
+          
+    }
+    else{
+      throw new exception("User not Found");
+    }
+}
+
+
+ //Update profile
+ public static function UpdateProfile($date,$ID){
+           
+    include_once "../../Model/Database2.php";
+    include_once "../../../Global/vars.php"; 
+    $var = vars::getVars();
+    $dba = new Database($var);
+    $query = "UPDATE users SET ";        
+    foreach ($date as $key => $value) {
+        $query .= "`".$key."` = '".$value."', ";
+    }             
+    $pat = "+-0*/";
+    $query .= $pat;        
+    $query = str_replace(", ".$pat, " ", $query);                             
+    $query .= " WHERE id = $ID";
+   
+    $stmt = $dba->db->prepare($query);
+    
+    $stmt->execute();
+
+if($stmt == true){
+    return true;
+}else{
+    throw exception('Can not Update');
+}
+
+}
 }
 
 
