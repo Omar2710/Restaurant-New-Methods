@@ -25,6 +25,20 @@ if ($_POST OR @$_GET['action']) {
 
 
     }
-}else{
+
+}
+ 
+if (isset($_GET['action']) AND $_GET['action'] == "display_user") {
+
+    try {
+        include_once "../../Model/User.php";
+        include_once "../../../Global/vars.php";
+        $id = $_GET['id'];
+        $dataPro =  User::getUserData($id);
+        include '../../Viewer/Admin/Admin_views/Admin_subViews/display user.php';
+    } catch (Exception $exc) {
+        echo $exc->getMessage();
+    }
+} else{
     header('Location:../../../Global/redirect.php');
 }
