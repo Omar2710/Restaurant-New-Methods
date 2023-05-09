@@ -1,9 +1,4 @@
 <?php
-session_start();
-$username = $_SESSION['username'];
-$password = $_SESSION['password'];
-
-$user  = new User($username,$password);
 if (isset($_GET['action']) AND $_GET['action'] == "UpdateProfile")
 {
     $date = User::DisplayProfile($_SESSION['GroupID']); // either visitor or admin

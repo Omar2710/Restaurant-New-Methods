@@ -125,9 +125,32 @@ class User{
             $GroupID = $row['ID'];
             return $GroupID;
     }
-
-        //Display profile
     
+ //Display profile
+ public static function DisplayProfile($id){
+        
+    include_once "../../Model/Database2.php";
+    include_once "../../../Global/vars.php"; 
+    $var = vars::getVars();
+    $dba = new Database($var);
+    $tablename = "users";
+    $query = "SELECT * FROM $tablename WHERE ID = '$id' ";
+   
+    $stmt = $dba->db->prepare($query);
+    $stmt->execute();
+    $cont = $stmt->rowCount();
+    $row  = $stmt->fetch();
+   
+    if($cont > 0){
+
+        return $row;
+          
+    }
+    else{
+      throw new exception("User not Found");
+    }
+}
+
 
  //Update profile
  public static function UpdateProfile($date,$ID){
@@ -157,5 +180,6 @@ if($stmt == true){
 
 }
 }
+
 
 ?>
