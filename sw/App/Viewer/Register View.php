@@ -60,8 +60,8 @@ include "../Tempelates/header.php";
 					<br>	
 					
 				</tr>
-				</div>
-					<br>	
+				<!-- </div>
+					<br>	 -->
 					
 				</tr>
 					 <div class="text-right p-t-8 p-b-31"> 
