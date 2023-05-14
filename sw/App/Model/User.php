@@ -108,7 +108,38 @@ class User{
             return $row;
     } 
 
+    public static function getActiveState($id=0){
+        $var = vars::getVars();
+        $dbo = new Database($var);
+        $db = $dbo->db;
+        $stmt = $db->prepare(" SELECT 'ActiveState' FROM users WHERE id = $id" );
+        return $stmt->execute();    
+}
 
+public static function getActiveStateforLogin($username,$password){
+    echo "3.1";
+    $var = vars::getVars();
+    echo "3.2";
+    $dbo = new Database($var);
+    echo "3.3";
+    $db = $dbo->db;
+    echo "3.4";
+    $stmt = $db->prepare("SELECT ActiveState FROM users WHERE Username = '$username' and Password = $password" );
+    echo "3.5";
+
+    $stmt->execute();
+    echo "3.6";
+
+    $cont = $stmt->rowCount();
+    $row  = $stmt->fetch();
+   
+    if($cont > 0){
+        return $row;
+
+    }else{
+         return -1;
+    }
+}
     
     public static function getGroupID($username,$pass){
     		$var = vars::getVars();
