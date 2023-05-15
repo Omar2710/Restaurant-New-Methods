@@ -53,11 +53,7 @@ class fooditem{
 	    $rows=$stmt->fetchAll();
 	    return $rows;
     }
-<<<<<<< HEAD
-}
-?>
-=======
-  public function AddNewItem($main){
+	public function AddNewItem($main){
     	include_once "../../Model/Database2.php";
         include_once "../../../Global/vars.php";
         $var = vars::getVars();
@@ -135,6 +131,11 @@ class fooditem{
 
     }
 }
+
+
+
+
+ 
 ?>
 
->>>>>>> 14a0338c0cd626657d5319be12b43f48a347cf47
+
