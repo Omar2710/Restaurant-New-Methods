@@ -19,6 +19,7 @@ if ($_POST OR @$_GET['action']) {
        
        include "../../Viewer/Admin/Admin_views/Admin_subViews/Category Meals.php";
     }
+
 }else{
     header('Location:../../../Global/redirect.php');
 }

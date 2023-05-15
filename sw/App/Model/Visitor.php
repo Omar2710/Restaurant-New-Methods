@@ -9,8 +9,13 @@ class Visitor extends User{
 
 	private $order ;
 	public $dbo;
-
-
+	
+	function __construct(){
+		//parent::__construct($data);
+		
+		// $x = new User($x);
+		//return $x;
+	}
  
 	public function register($data){
 		// access and add to db
