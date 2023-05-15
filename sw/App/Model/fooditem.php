@@ -51,4 +51,5 @@ class fooditem{
 	    $rows=$stmt->fetchAll();
 	    return $rows;
     }
+}
 ?>

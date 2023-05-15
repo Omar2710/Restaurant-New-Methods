@@ -13,7 +13,7 @@ class Visitor extends User{
 	function __construct(){
 		//parent::__construct($data);
 		
-		$x = new User($x);
+		// $x = new User($x);
 		//return $x;
 	}
  
