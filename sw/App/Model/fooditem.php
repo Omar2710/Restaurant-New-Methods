@@ -81,5 +81,53 @@ class fooditem{
 
         return $this->alarm();
    }
+   public static function searchItemByName($name){
+        self::ConnectToDB();
+        $tableName = "fooditems";
+        $query = "SELECT * FROM $tableName WHERE Name = '$name' ";
+        
+        $stmt = self::$sdb->prepare($query);
+        $stmt->execute();
+        $cont = $stmt->rowCount();
+        $row  = $stmt->fetch();
+        if($cont > 0){
+            return 1;
+        }
+        else{
+          return 0;
+        }
+         
+    }
+
+    public static function setItemAmount($amount,$name){
+        self::ConnectToDB();
+        $tableName = "fooditems";
+        $query = "Update $tableName set Amount = '$amount' WHERE Name = '$name' ";
+       
+        $stmt = self::$sdb->prepare($query);
+        $stmt->execute();
+    }
+    public static function getItemAmount($name=0,$id=0){
+        self::ConnectToDB();
+        $tableName = "fooditems";
+        if($name ==0){
+            $query = "SELECT Amount FROM $tableName WHERE ID = $id ";
+        }else{
+            $query = "SELECT Amount FROM $tableName WHERE Name = '$name' ";
+        }
+        
+       
+        $stmt = self::$sdb->prepare($query);
+        $stmt->execute();
+        $cont = $stmt->rowCount();
+        $row  = $stmt->fetch();
+        if($cont > 0){
+            return $row;
+        }
+        else{
+          return 0;
+        }
+
+    }
 ?>
 
