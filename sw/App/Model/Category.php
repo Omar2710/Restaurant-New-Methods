@@ -28,6 +28,48 @@ class Category{
             return $rows;
         }
 
+
+        public static function searchCategory($name){
+            self::ConnectToDB();
+            $tableName = "categories";
+            $query = "SELECT * FROM $tableName WHERE Name = '$name' ";
+            
+            $stmt = self::$sdb->prepare($query);
+            $stmt->execute();
+            $cont = $stmt->rowCount();
+            $row  = $stmt->fetch();
+            if($cont > 0){
+                return $row;
+            }
+            else{
+              return 0;
+            }
+        } 
+        
+        
+        public static function displayCategoryName($ID){
+            // include 'Display.php';
+             self::ConnectToDB();
+             $tableName = "categories";
+             $query = "SELECT * FROM $tableName WHERE ID = $ID ";
+            
+             $stmt = self::$sdb->prepare($query);
+             $stmt->execute();
+             $cont = $stmt->rowCount();
+             $row  = $stmt->fetch();
+            
+             if($cont > 0){
+ 
+                 return $row;
+                   
+             }
+             else{
+               throw new exception("data not Found");
+             }
+             
+             return $data;
+     }      
+
 }
 
 
