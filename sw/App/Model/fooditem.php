@@ -81,5 +81,6 @@ class fooditem{
 
         return $this->alarm();
    }
+}
 ?>
 
