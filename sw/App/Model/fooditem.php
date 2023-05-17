@@ -130,6 +130,28 @@ class fooditem{
         }
 
     }
+
+    public static function setDisable($itemid){
+        start_session();
+        self::ConnectToDB();
+        $tableName = "fooditems";
+        $query = "UPDATE $tableName SET Visibility = 0 where ID = $itemid ";
+       
+        $stmt = self::$sdb->prepare($query);
+        return $stmt->execute();
+       
+    }
+
+    public static function setEnable($itemid){
+        start_session();
+        self::ConnectToDB();
+        $tableName = "fooditems";
+        $query = "UPDATE $tableName SET Visibility = 1 where ID = $itemid ";
+       
+        $stmt = self::$sdb->prepare($query);
+        return $stmt->execute();
+        
+    }
 }
 
 
