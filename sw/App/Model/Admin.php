@@ -36,11 +36,42 @@ public static function searchUser($name){
             
          
     }
+    public static function blockUser($id){
+        self::ConnectToDB();
+        $tableName = "users";
+       // update users set `ActiveState` = 0 where `ID` = 56
+        $col = "ActiveState";
+        $query = "Update `$tableName` set `$col` = 0 WHERE `ID` = $id";
+        echo "$query";
+        $stmt = self::$db->prepare($query);
+        return $stmt->execute();
+}
+
+public static function activateUser($id){
+    self::ConnectToDB();
+        $tableName = "users";
+        $col = "ActiveState";
+        //update users set `ActiveState` = 1 where `ID` = 55
+        $query = "Update `$tableName` set `$col`= 1 WHERE `ID` = $id ";
+        echo "$query"; 
+        $stmt = self::$db->prepare($query);
+        return $stmt->execute();
+}
 
     public static function DisplayAllUsers(){ // gets table name and display all its datas
         self::ConnectToDB();
         $tablename = "users";
         $sql = "SELECT * from $tablename where ID != 1";
+        $stmt = self::$db->prepare($sql);
+        $stmt->execute();
+        $rows=$stmt->fetchAll();
+        return $rows;
+    }
+    
+    public static function DisplayNonBlockedUsers(){ // gets table name and display all its datas
+        self::ConnectToDB();
+        $tablename = "users";
+        $sql = "SELECT * from $tablename where ID != 1 And ActiveState != 0";
         $stmt = self::$db->prepare($sql);
         $stmt->execute();
         $rows=$stmt->fetchAll();
