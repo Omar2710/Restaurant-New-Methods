@@ -1,5 +1,4 @@
 
-=======
 <?php
 include_once 'PatternObserver.php';
 include_once 'Admin.php';
