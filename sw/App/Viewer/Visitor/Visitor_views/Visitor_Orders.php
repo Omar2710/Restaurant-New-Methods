@@ -1,3 +1,5 @@
+
+=======
 <?php
 if(!isset($_SESSION)){
     header('Location:../../../Global/redirect.php');
@@ -31,3 +33,27 @@ include "../../../App/Tempelates/navbar.php"
                                     <button><a href="Visitor Manage Orders Controller.php?action=v_CurrentOrders"><i class="fa fa-tasks" aria-hidden="true"></i>Orders</a></button>
                         </div>
                     </div>
+
+<div class="col-md-6">
+                            <div class="box">
+                                <div class="title">
+                                    <p><a href="Visitor Manage Orders Controller.php?action=v_transactions"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Previous Transactions</a></p>
+                            
+                                </div>
+                                    <div class="list">
+                                        <ul>
+                                            <li></li>
+                                            <li></li>
+                                            <li></li>
+                                            <li></li>
+                                            <li></li>
+                                        </ul>
+                                    </div>
+                                        <button><a href="Visitor Manage Orders Controller.php?action=v_transactions"><i class="fa fa-eye" aria-hidden="true"></i>Transactions</a></button>
+                            </div>   
+                        </div>
+                    </div>
+                <br></br>
+            </div>    
+    </div>
+</div>
