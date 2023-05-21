@@ -152,6 +152,47 @@ class fooditem{
         return $stmt->execute();
         
     }
+    public static function getCategoryNameByJoin($tableName,array $tableargs ,array $tableargsEquality,$condition=''){
+        self::ConnectToDB();
+        $sql = "SELECT ";
+        if(count($tableargs)){
+            $i=1;
+            foreach($tableargs as $table=>$arg){
+                $sql.=$table.'.'.$arg;
+                if($i<count($tableargs)){
+                    $sql.=',';
+                }
+                $i++;
+            }
+            $sql.=" FROM ".$tableName ;
+            foreach($tableargsEquality as $table=>$equal)
+                {
+                    $sql.=" INNER JOIN " . $table . " ON " . $table.".ID = " . $tableName  . "." . 'CAT' . "ID";
+                    
+                }
+            
+           $sql.=$condition;
+
+            
+            $stmt = self::$sdb->prepare($sql);
+            
+            $stmt->execute();
+            $cont = $stmt->rowCount();
+            if($cont > 0){
+                for($i=0; $i<$cont; $i++)
+                {
+                    $data[$i] = $stmt->fetch();
+                   
+                }
+                  return $data;
+            }
+
+
+        }else{
+        echo "error happend";
+    }
+
+}
 }
 
 
