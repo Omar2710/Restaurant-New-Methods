@@ -34,7 +34,7 @@ include "../../../App/Tempelates/navbar.php"
                         </div>
                     </div>
 
-<div class="col-md-6">
+                        <div class="col-md-6">
                             <div class="box">
                                 <div class="title">
                                     <p><a href="Visitor Manage Orders Controller.php?action=v_transactions"><i class="fa fa-cart-arrow-down" aria-hidden="true"></i>Previous Transactions</a></p>
