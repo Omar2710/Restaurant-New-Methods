@@ -191,12 +191,33 @@ class fooditem{
         echo "error happend";
     }
 
+    public static function DeleteItem($ID){
+		self::ConnectToDB();
+        $tableName = "fooditems";
+		
+		$stmt = self::$sdb->prepare("DELETE FROM $tableName WHERE ID = $ID ");
+        $stmt->execute();
+    }
+
+	public static function UpdateItem($data,$ID){
+        
+        self::ConnectToDB();
+        $tablename = "fooditems";
+        $query = "UPDATE $tablename SET ";        
+        foreach ($data as $key => $value) {
+            $query .= "`".$key."` = '".$value."', ";
+        }             
+        $pat = "+-0*/";
+        $query .= $pat;        
+        $query = str_replace(", ".$pat, " ", $query);                             
+        $query .= " WHERE id = $ID";
+        //echo " it is query $query";
+        $stmt = self::$sdb->prepare($query);
+        return $stmt->execute();
+    }
+
 }
 }
-
-
-
-
  
 ?>
 

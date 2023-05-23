@@ -58,4 +58,98 @@ if ($_POST OR @$_GET['action']) {
        }
         
     }
+
+     // Delete food item
+     if (isset($_GET['action']) AND $_GET['action'] == "delete") {
+          
+        try {
+             $ID = $_GET['id'];
+             fooditem::DeleteItem($ID);
+             header('Location:../../Controller/Admin/Admin Dashboard Controller.php?action=v_FoodItems');
+ 
+         } catch (Exception $exc) {
+             echo $exc->getMessage();
+         }
+     }
+
+     // Edit:
+     
+     if (isset($_GET['action']) AND $_GET['action'] == "update") 
+     {
+         
+        $id = $_GET['id'];
+        $tablename = 'fooditems';
+        
+        $joindata =  fooditem::displayItemByID($id);
+       
+         foreach($joindata as $join){
+             
+             $dataPro['Name'] = $join[0];
+
+             $dataPro['ID'] = $join['ID'];
+             $dataPro['Amount'] = $join['Amount'];
+             $dataPro['Catigiories'] = $join['Name'];
+             $dataPro['CATID'] = $join['CATID'];
+             $dataPro['Price'] = $join['Price'];
+             $dataPro['Image'] = $join['Image'];
+             $dataPro['ProductDate'] = $join['ProductDate'];
+             $dataPro['ExpireDate'] = $join['ExpireDate'];
+             $dataPro['Description'] = $join['Description'];
+             $dataPro['Visibility'] = $join['Visibility'];
+         }
+         $pieces = explode("-", $dataPro['ProductDate']);
+        $year = $pieces[0];
+        $month = $pieces[1];
+        $day = $pieces[2];
+         $pieces = explode("-", $dataPro['ExpireDate']);
+        $exyear = $pieces[0];
+        $exmonth = $pieces[1];
+        $exday = $pieces[2];
+         //print_r($dataPro);
+         include '../../Viewer/Admin/Admin_views/Admin_subViews/Update Item.php';
+        
+     }
+    
+     if (isset($_POST['submit']) && $_POST['submit'] == "Edit")
+     {
+       
+        $main['Name'] = $_POST['name']; 
+        $main['ID'] = $_POST['ID']; 
+        $main['Amount'] = $_POST['amount']; 
+        $main['CATID'] = $_POST['catid']; 
+        $main['Price'] = $_POST['price'];
+
+        $main['Image'] = ""; 
+        $main['ExpireDate'] =$_POST['year2'];
+        $main['ExpireDate'] .= '-'.$_POST['month2'];  
+        $main['ExpireDate'] .='-'. $_POST['day2']; 
+         
+        $main['ProductDate'] = $_POST['year1'];
+        $main['ProductDate'] .='-'. $_POST['month1'];
+        $main['ProductDate'] .= '-'.$_POST['day1'];
+        
+               
+        $main['Description'] = $_POST['desc'];
+        $main['Visibility'] = $_POST['vis'];
+       // print_r($main);
+        try {
+            $ID = $main['ID'];
+            $tablename = 'fooditems';
+            $dd = fooditem::UpdateItem($main,$ID);
+    
+            if($dd == true){
+                
+                header('Location:../../Controller/Admin/Admin Dashboard Controller.php?action=v_item');
+            }
+            
+
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        }  
+    }
+ 
+}else{
+    header('Location:../../../Global/redirect.php');
 }
+?>
+
