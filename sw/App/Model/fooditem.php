@@ -130,6 +130,16 @@ class fooditem{
 
     }
 
+    public static function displayItemByID($ID){
+        self::ConnectToDB();
+        $tablename = "fooditems";
+        $tableargs = array('fooditems' => '*','Categories' => 'Name');
+        $tableargsEquality = array('Categories' => 'ID');
+        $condition = " WHERE ".$tablename.".ID=".$ID;
+        $joindata = self::getCategoryNameByJoin($tablename,$tableargs,$tableargsEquality,$condition);
+         return $joindata;
+     }
+
     public static function setDisable($itemid){
         start_session();
         self::ConnectToDB();
