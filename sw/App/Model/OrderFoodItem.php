@@ -68,26 +68,6 @@ class OrderFoodItem{
 		
 	}
 
-
-	public function addToOrder($data){
-		$this->ConnectToDB();
-		$tblName = "orderfooditem";
-		$keys=array();
-	    $values=array(); 
-	    foreach($data as $key => $value){
-	        
-	        $val="'$value'";
-	        array_push($keys,$key);
-	        array_push($values,$val);
-	    }
-	    
-	    $tblkeys = implode($keys , ',');
-	    $datavalues = implode($values , ',') ;
-	    $stmt = $this->dbo->prepare("INSERT INTO $tblName ($tblkeys) VALUES($datavalues)");
-	    return $stmt->execute();
-	    //echo "INSERT INTO $tblName ($tblkeys) VALUES($datavalues)";
-	}
-
     public static function updateNumberOfItem($orderId,$number,$itemId,$numberOfpreviousItem){
 		self::ConnectToDB2();
 		$tablename = "orderfooditem";
@@ -106,55 +86,5 @@ class OrderFoodItem{
 
    
 	}
-
-	public function calculate(){
-		
-		$itemPrice = fooditem::getItemPrice($this->foodItemID);
-		$this->price = $itemPrice['Price'] * ($this->foodItemNumber);
-		
-		return $this->price;
-	}
-  
-
-	public static function getAllItemOfOrder($orderId){
-		self::ConnectToDB2();
-    	$tablename = "orderfooditem";
-        $sql = "SELECT * from $tablename where orderID = $orderId";
-	    $stmt = self::$dbo2->prepare($sql);
-	    $stmt->execute();
-	    $rows=$stmt->fetchAll();
-	   	return $rows;
-	}
-
-	public static function deleteFooditem($orderId,$itemId,$visitorID){
-		self::ConnectToDB2();
-
-		$tablename = "orderfooditem";
-
-		$query = "SELECT price FROM $tablename Where orderID = $orderId And foodItemID = $itemId";
-		$stmt = self::$dbo2->prepare($query);
-		$stmt->execute();
-		$price=$stmt->fetch();
-		$price['price'] *= -1 ;
-	
-
-		Order::updatePrice($orderId,$price['price']);
-		$query = "DELETE FROM $tablename WHERE orderID = $orderId AND foodItemID = $itemId ";
-	
-		$stmt = self::$dbo2->prepare($query);
-		$stmt->execute();
-		$orderNotEmpty = self::getAllItemOfOrder($orderId);
-		//print_r($orderNotEmpty);
-		if($orderNotEmpty == null){
-			Order::deleteOrder($orderId);
-			session_start();
-			if(isset($_SESSION['willDisabled'])){
-				fooditem::setEnable($_SESSION['willDisabled']);
-				unset($_SESSION['willDisabled']);
-			}
-		}
-		
-	}
-
 
 }

@@ -37,20 +37,5 @@ class Visitor extends User{
 	
 	}   
 
-	public function getCurrentOrder($id){
-		$this->ConnectToDB();
-		$stmt = $this->dbo->prepare("SELECT * FROM orders where VISITORID = $id AND statues = 'pending'");
-		$stmt->execute();
-        $cont = $stmt->rowCount();
-        $row  = $stmt->fetch();
-        if($cont > 0){
-            return 1;
-        }
-        else{
-          return 0;
-        }
-		
-	}
-
 }
 ?>

@@ -210,27 +210,7 @@ if($stmt == true){
 }
 
 }
-public static function getIntersectMeals($id,$userid=0){
-    include_once "../../Model/Database2.php";
-        include_once "../../../Global/vars.php"; 
-        $var = vars::getVars();
-        $dba = new Database($var);
-        if($userid == 0){
-               $query = "SELECT * from fooditems WHERE CATID = $id ";   
-        }else{
-           
-            $query = "SELECT * from fooditems WHERE CATID = $id and Visibility = 1";    
-        }
-        $stmt = $dba->db->prepare($query);
-        $stmt->execute();
-        $count = $stmt->rowCount();
-        $data = array();
-        for ($i=0; $i < $count; $i++) { 
-            $data[$i] =$stmt->fetch(PDO::FETCH_ASSOC);
-        }
-       
-       return $data;            
 }
-}
+
 
 ?>
