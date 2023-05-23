@@ -87,6 +87,14 @@ class OrderFoodItem{
    
 	}
 
+	public function calculate(){
+		
+		$itemPrice = fooditem::getItemPrice($this->foodItemID);
+		$this->price = $itemPrice['Price'] * ($this->foodItemNumber);
+		
+		return $this->price;
+	}
+  
 
 	public static function getAllItemOfOrder($orderId){
 		self::ConnectToDB2();
