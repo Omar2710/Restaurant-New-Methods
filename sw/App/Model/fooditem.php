@@ -1,5 +1,4 @@
 
-=======
 <?php
 include_once 'PatternObserver.php';
 include_once 'Admin.php';
@@ -130,6 +129,34 @@ class fooditem{
         }
 
     }
+        public static function getItemPrice($id){
+            self::ConnectToDB();
+            $tableName = "fooditems";
+            $query = "SELECT Price FROM $tableName WHERE ID = $id ";
+           
+            $stmt = self::$sdb->prepare($query);
+            $stmt->execute();
+            $cont = $stmt->rowCount();
+            $row  = $stmt->fetch();
+            if($cont > 0){
+                return $row;
+            }
+            else{
+              return 0;
+            }
+    
+        }
+
+
+    public static function displayItemByID($ID){
+        self::ConnectToDB();
+        $tablename = "fooditems";
+        $tableargs = array('fooditems' => '*','Categories' => 'Name');
+        $tableargsEquality = array('Categories' => 'ID');
+        $condition = " WHERE ".$tablename.".ID=".$ID;
+        $joindata = self::getCategoryNameByJoin($tablename,$tableargs,$tableargsEquality,$condition);
+         return $joindata;
+     }
 
     public static function setDisable($itemid){
         start_session();
@@ -152,10 +179,72 @@ class fooditem{
         return $stmt->execute();
         
     }
+    public static function getCategoryNameByJoin($tableName,array $tableargs ,array $tableargsEquality,$condition=''){
+        self::ConnectToDB();
+        $sql = "SELECT ";
+        if(count($tableargs)){
+            $i=1;
+            foreach($tableargs as $table=>$arg){
+                $sql.=$table.'.'.$arg;
+                if($i<count($tableargs)){
+                    $sql.=',';
+                }
+                $i++;
+            }
+            $sql.=" FROM ".$tableName ;
+            foreach($tableargsEquality as $table=>$equal)
+                {
+                    $sql.=" INNER JOIN " . $table . " ON " . $table.".ID = " . $tableName  . "." . 'CAT' . "ID";
+                    
+                }
+            
+           $sql.=$condition;
+
+            
+            $stmt = self::$sdb->prepare($sql);
+            
+            $stmt->execute();
+            $cont = $stmt->rowCount();
+            if($cont > 0){
+                for($i=0; $i<$cont; $i++)
+                {
+                    $data[$i] = $stmt->fetch();
+                   
+                }
+                  return $data;
+            }
+
+
+        }else{
+        echo "error happend";
+    }
+    }
+    public static function DeleteItem($ID){
+		self::ConnectToDB();
+        $tableName = "fooditems";
+		
+		$stmt = self::$sdb->prepare("DELETE FROM $tableName WHERE ID = $ID ");
+        $stmt->execute();
+    }
+
+	public static function UpdateItem($data,$ID){
+        
+        self::ConnectToDB();
+        $tablename = "fooditems";
+        $query = "UPDATE $tablename SET ";        
+        foreach ($data as $key => $value) {
+            $query .= "`".$key."` = '".$value."', ";
+        }             
+        $pat = "+-0*/";
+        $query .= $pat;        
+        $query = str_replace(", ".$pat, " ", $query);                             
+        $query .= " WHERE id = $ID";
+        //echo " it is query $query";
+        $stmt = self::$sdb->prepare($query);
+        return $stmt->execute();
+    }
+
 }
-
-
-
 
  
 ?>

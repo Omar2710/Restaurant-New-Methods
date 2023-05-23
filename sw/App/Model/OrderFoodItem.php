@@ -68,6 +68,7 @@ class OrderFoodItem{
 		
 	}
 
+
 	public function addToOrder($data){
 		$this->ConnectToDB();
 		$tblName = "orderfooditem";
