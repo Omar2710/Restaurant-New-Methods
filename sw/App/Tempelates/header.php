@@ -9,7 +9,7 @@ $url = $_SESSION['url'];
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Cloud Ordering Food </title>
+        <title>Fork & Spoon </title>
        <!--===============================================================================================-->	
         <link rel="icon" type="image/png" href="<?php echo $url ;?>/resources/images/icons/favicon.ico"/>
     <!--===============================================================================================-->

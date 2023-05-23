@@ -27,6 +27,7 @@ class Category{
             $rows=$stmt->fetchAll();
             return $rows;
         }
+
         public static function deleteCategory($id){
     	
             $tableName = "categories";
@@ -34,6 +35,26 @@ class Category{
             $stmt = self::$sdb->prepare("DELETE FROM $tableName WHERE ID = $id ");
             print_r($stmt);
             $stmt->execute();  
+}
+        public static function AddNewCategory($main){
+            self::ConnectToDB();
+            $tblName = 'categories';
+            $col = 'Name';
+            
+            $keys=array();
+            $values=array(); 
+            foreach($main as $key => $value){
+                
+                $val="'$value'";
+                array_push($keys,$key);
+                array_push($values,$val);
+            }
+            
+            $tblkeys = implode($keys , ',');
+            $datavalues = implode($values , ',') ;
+            $stmt = self::$sdb->prepare("INSERT INTO $tblName ($tblkeys) VALUES($datavalues)");
+            return $stmt->execute();
+            
         }
         public static function UpdateCategory($data,$C_ID){
             self::ConnectToDB();
