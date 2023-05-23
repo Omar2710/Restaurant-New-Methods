@@ -87,4 +87,30 @@ class OrderFoodItem{
    
 	}
 
+	public function calculate(){
+		
+		$itemPrice = fooditem::getItemPrice($this->foodItemID);
+		$this->price = $itemPrice['Price'] * ($this->foodItemNumber);
+		
+		return $this->price;
+	}
+  
+	public static function updateNumberOfItem($orderId,$number,$itemId,$numberOfpreviousItem){
+		self::ConnectToDB2();
+		$tablename = "orderfooditem";
+
+		$query = "UPDATE $tablename SET foodItemNumber = $number where foodItemID = $itemId AND orderID = $orderId ";   
+		$stmt = self::$dbo2->prepare($query);
+		$stmt->execute();
+
+		$itemPrice = fooditem::getItemPrice($itemId);
+		$TotalPrice = $itemPrice['Price'] * $number;
+		$query = "UPDATE $tablename SET price = $TotalPrice where foodItemID = $itemId AND orderID = $orderId ";   
+		$stmt = self::$dbo2->prepare($query);
+		$stmt->execute();
+
+		Order::updatePrice($orderId,$TotalPrice,$numberOfpreviousItem,$itemPrice['Price']); 
+
+   
+	}
 }
