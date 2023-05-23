@@ -98,5 +98,14 @@ class OrderFoodItem{
 	   	return $rows;
 	}
 
+	
+	public function calculate(){
+		
+		$itemPrice = fooditem::getItemPrice($this->foodItemID);
+		$this->price = $itemPrice['Price'] * ($this->foodItemNumber);
+		
+		return $this->price;
+	}
+
 
 }
