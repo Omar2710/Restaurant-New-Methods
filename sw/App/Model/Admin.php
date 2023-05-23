@@ -77,6 +77,15 @@ public static function activateUser($id){
         $rows=$stmt->fetchAll();
         return $rows;
     }
+
+
+    public static function DeleteItem($C_ID){
+        
+        $tableName = "fooditems";
+        self::ConnectToDB();
+        self::DeleteRecordByID($C_ID,$tableName);   
+
+    }
 }
 
 ?>

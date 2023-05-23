@@ -98,6 +98,35 @@ class OrderFoodItem{
 	   	return $rows;
 	}
 
+	public static function deleteFooditem($orderId,$itemId,$visitorID){
+		self::ConnectToDB2();
+
+		$tablename = "orderfooditem";
+
+		$query = "SELECT price FROM $tablename Where orderID = $orderId And foodItemID = $itemId";
+		$stmt = self::$dbo2->prepare($query);
+		$stmt->execute();
+		$price=$stmt->fetch();
+		$price['price'] *= -1 ;
+	
+
+		Order::updatePrice($orderId,$price['price']);
+		$query = "DELETE FROM $tablename WHERE orderID = $orderId AND foodItemID = $itemId ";
+	
+		$stmt = self::$dbo2->prepare($query);
+		$stmt->execute();
+		$orderNotEmpty = self::getAllItemOfOrder($orderId);
+		//print_r($orderNotEmpty);
+		if($orderNotEmpty == null){
+			Order::deleteOrder($orderId);
+			session_start();
+			if(isset($_SESSION['willDisabled'])){
+				fooditem::setEnable($_SESSION['willDisabled']);
+				unset($_SESSION['willDisabled']);
+			}
+		}
+		
+	}
 
 
 }
