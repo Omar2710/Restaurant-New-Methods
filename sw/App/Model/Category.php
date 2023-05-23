@@ -28,7 +28,22 @@ class Category{
             return $rows;
         }
 
-
+        public static function UpdateCategory($data,$C_ID){
+            self::ConnectToDB();
+            $tableName = "categories";
+            $query = "UPDATE $tableName SET ";        
+            foreach ($data as $key => $value) {
+                $query .= "`".$key."` = '".$value."', ";
+            }             
+            $pat = "+-0*/";
+            $query .= $pat;        
+            $query = str_replace(", ".$pat, " ", $query);                             
+            $query .= " WHERE id = $C_ID";
+           
+           $stmt = self::$sdb->prepare($query);
+           return $stmt->execute();
+            
+        }
         public static function searchCategory($name){
             self::ConnectToDB();
             $tableName = "categories";
