@@ -1,3 +1,4 @@
+
 <?php
 
 include_once "../../Model/Admin.php";
@@ -58,23 +59,54 @@ if ($_POST OR @$_GET['action']) {
        }
         
     }
-
-
-     // Delete food item
-     if (isset($_GET['action']) AND $_GET['action'] == "delete") {
+    
+    // Delete food item
+    if (isset($_GET['action']) AND $_GET['action'] == "delete") {
           
-        try {
-             $ID = $_GET['id'];
-             fooditem::DeleteItem($ID);
-             header('Location:../../Controller/Admin/Admin Dashboard Controller.php?action=v_FoodItems');
- 
-         } catch (Exception $exc) {
-             echo $exc->getMessage();
-         }
-     }
+       try {
+            $ID = $_GET['id'];
+            fooditem::DeleteItem($ID);
+            header('Location:../../Controller/Admin/Admin Dashboard Controller.php?action=v_FoodItems');
 
-     // Edit:
-     
+        } catch (Exception $exc) {
+            echo $exc->getMessage();
+        }
+    }
+    
+    if (isset($_GET['action']) AND $_GET['action'] == "display") {
+        
+        try{
+            $id = $_GET['id'];
+            $joindata = fooditem::displayItemByID($_GET['id']);
+             foreach($joindata as $join){
+             
+             $dataPro['Name'] = $join[0];
+             $dataPro['ID'] = $join['ID'];
+             $dataPro['Amount'] = $join['Amount'];
+             $dataPro['Catigiories'] = $join['Name'];
+             $dataPro['CATID'] = $join['CATID'];
+             $dataPro['Price'] = $join['Price'];
+             $dataPro['Image'] = $join['Image'];
+             $dataPro['ProductDate'] = $join['ProductDate'];
+             $dataPro['ExpireDate'] = $join['ExpireDate'];
+             $dataPro['Description'] = $join['Description'];
+             $dataPro['Visibility'] = $join['Visibility'];
+             }
+             $pieces = explode("-", $dataPro['ProductDate']);
+             $year = $pieces[0];
+             $month = $pieces[1];
+             $day = $pieces[2];
+             $pieces = explode("-", $dataPro['ExpireDate']);
+             $exyear = $pieces[0];
+             $exmonth = $pieces[1];
+             $exday = $pieces[2];      
+            include '../../Viewer/Admin/Admin_views/Admin_subViews/display Item.php';
+        }catch(Exception $exc){
+            echo $exc->getMessage();
+        }
+    }
+    
+    // Edit:
      if (isset($_GET['action']) AND $_GET['action'] == "update") 
      {
          
@@ -84,16 +116,6 @@ if ($_POST OR @$_GET['action']) {
         $joindata =  fooditem::displayItemByID($id);
        
          foreach($joindata as $join){
-             
-             $dataPro['Name'] = $join[0];
-
-
-    if (isset($_GET['action']) AND $_GET['action'] == "display") {
-        
-        try{
-            $id = $_GET['id'];
-            $joindata = fooditem::displayItemByID($_GET['id']);
-             foreach($joindata as $join){
              
              $dataPro['Name'] = $join[0];
 
@@ -107,7 +129,6 @@ if ($_POST OR @$_GET['action']) {
              $dataPro['ExpireDate'] = $join['ExpireDate'];
              $dataPro['Description'] = $join['Description'];
              $dataPro['Visibility'] = $join['Visibility'];
-
          }
          $pieces = explode("-", $dataPro['ProductDate']);
         $year = $pieces[0];
@@ -164,21 +185,3 @@ if ($_POST OR @$_GET['action']) {
     header('Location:../../../Global/redirect.php');
 }
 ?>
-
-
-             }
-             $pieces = explode("-", $dataPro['ProductDate']);
-             $year = $pieces[0];
-             $month = $pieces[1];
-             $day = $pieces[2];
-             $pieces = explode("-", $dataPro['ExpireDate']);
-             $exyear = $pieces[0];
-             $exmonth = $pieces[1];
-             $exday = $pieces[2];      
-            include '../../Viewer/Admin/Admin_views/Admin_subViews/display Item.php';
-        }catch(Exception $exc){
-            echo $exc->getMessage();
-        }
-    }
-}
-
