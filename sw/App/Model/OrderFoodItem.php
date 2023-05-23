@@ -95,22 +95,46 @@ class OrderFoodItem{
 		return $this->price;
 	}
   
-	public static function updateNumberOfItem($orderId,$number,$itemId,$numberOfpreviousItem){
+
+	public static function getAllItemOfOrder($orderId){
 		self::ConnectToDB2();
+    	$tablename = "orderfooditem";
+        $sql = "SELECT * from $tablename where orderID = $orderId";
+	    $stmt = self::$dbo2->prepare($sql);
+	    $stmt->execute();
+	    $rows=$stmt->fetchAll();
+	   	return $rows;
+	}
+
+	public static function deleteFooditem($orderId,$itemId,$visitorID){
+		self::ConnectToDB2();
+
 		$tablename = "orderfooditem";
 
-		$query = "UPDATE $tablename SET foodItemNumber = $number where foodItemID = $itemId AND orderID = $orderId ";   
+		$query = "SELECT price FROM $tablename Where orderID = $orderId And foodItemID = $itemId";
 		$stmt = self::$dbo2->prepare($query);
 		$stmt->execute();
+		$price=$stmt->fetch();
+		$price['price'] *= -1 ;
+	
 
-		$itemPrice = fooditem::getItemPrice($itemId);
-		$TotalPrice = $itemPrice['Price'] * $number;
-		$query = "UPDATE $tablename SET price = $TotalPrice where foodItemID = $itemId AND orderID = $orderId ";   
+		Order::updatePrice($orderId,$price['price']);
+		$query = "DELETE FROM $tablename WHERE orderID = $orderId AND foodItemID = $itemId ";
+	
 		$stmt = self::$dbo2->prepare($query);
 		$stmt->execute();
-
-		Order::updatePrice($orderId,$TotalPrice,$numberOfpreviousItem,$itemPrice['Price']); 
-
-   
+		$orderNotEmpty = self::getAllItemOfOrder($orderId);
+		//print_r($orderNotEmpty);
+		if($orderNotEmpty == null){
+			Order::deleteOrder($orderId);
+			session_start();
+			if(isset($_SESSION['willDisabled'])){
+				fooditem::setEnable($_SESSION['willDisabled']);
+				unset($_SESSION['willDisabled']);
+			}
+		}
+		
 	}
+
+
 }
