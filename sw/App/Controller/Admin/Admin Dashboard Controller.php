@@ -1,9 +1,9 @@
 
 <?php
-//session_start();
+session_start();
     include_once '../../Model/User.php';
-    //include_once '../../Model/Order.php'; 
-    //include_once '../../Model/OrderFoodItem.php';
+    include_once '../../Model/Order.php'; 
+    include_once '../../Model/OrderFoodItem.php';
 
     $username = $_SESSION['username'];
     $password = $_SESSION['password'];
