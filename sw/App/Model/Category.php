@@ -27,6 +27,15 @@ class Category{
             $rows=$stmt->fetchAll();
             return $rows;
         }
+
+        public static function deleteCategory($id){
+    	
+            $tableName = "categories";
+            self::ConnectToDB();
+            $stmt = self::$sdb->prepare("DELETE FROM $tableName WHERE ID = $id ");
+            print_r($stmt);
+            $stmt->execute();  
+}
         public static function AddNewCategory($main){
             self::ConnectToDB();
             $tblName = 'categories';
