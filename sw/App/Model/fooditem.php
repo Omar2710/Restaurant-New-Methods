@@ -128,7 +128,7 @@ class fooditem{
           return 0;
         }
 
-
+    }
         public static function getItemPrice($id){
             self::ConnectToDB();
             $tableName = "fooditems";
@@ -146,9 +146,7 @@ class fooditem{
             }
     
         }
-    
 
-    }
 
     public static function displayItemByID($ID){
         self::ConnectToDB();
