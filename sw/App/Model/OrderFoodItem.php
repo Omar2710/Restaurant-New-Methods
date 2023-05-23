@@ -87,4 +87,16 @@ class OrderFoodItem{
    
 	}
 
+
+	public static function getAllItemOfOrder($orderId){
+		self::ConnectToDB2();
+    	$tablename = "orderfooditem";
+        $sql = "SELECT * from $tablename where orderID = $orderId";
+	    $stmt = self::$dbo2->prepare($sql);
+	    $stmt->execute();
+	    $rows=$stmt->fetchAll();
+	   	return $rows;
+	}
+
+
 }
