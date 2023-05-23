@@ -201,6 +201,21 @@ class fooditem{
          return $joindata;
      }
       
+     public static function getItemPrice($id){
+        self::ConnectToDB();
+        $tableName = "fooditems";
+        $query = "SELECT Price FROM $tableName WHERE ID = $id ";
+       
+        $stmt = self::$sdb->prepare($query);
+        $stmt->execute();
+        $cont = $stmt->rowCount();
+        $row  = $stmt->fetch();
+        if($cont > 0){
+            return $row;
+        }
+        else{
+          return 0;
+        }
 
 
 }
