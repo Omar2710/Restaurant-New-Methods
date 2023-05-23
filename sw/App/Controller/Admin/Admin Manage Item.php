@@ -58,4 +58,37 @@ if ($_POST OR @$_GET['action']) {
        }
         
     }
+
+    if (isset($_GET['action']) AND $_GET['action'] == "display") {
+        
+        try{
+            $id = $_GET['id'];
+            $joindata = fooditem::displayItemByID($_GET['id']);
+             foreach($joindata as $join){
+             
+             $dataPro['Name'] = $join[0];
+             $dataPro['ID'] = $join['ID'];
+             $dataPro['Amount'] = $join['Amount'];
+             $dataPro['Catigiories'] = $join['Name'];
+             $dataPro['CATID'] = $join['CATID'];
+             $dataPro['Price'] = $join['Price'];
+             $dataPro['Image'] = $join['Image'];
+             $dataPro['ProductDate'] = $join['ProductDate'];
+             $dataPro['ExpireDate'] = $join['ExpireDate'];
+             $dataPro['Description'] = $join['Description'];
+             $dataPro['Visibility'] = $join['Visibility'];
+             }
+             $pieces = explode("-", $dataPro['ProductDate']);
+             $year = $pieces[0];
+             $month = $pieces[1];
+             $day = $pieces[2];
+             $pieces = explode("-", $dataPro['ExpireDate']);
+             $exyear = $pieces[0];
+             $exmonth = $pieces[1];
+             $exday = $pieces[2];      
+            include '../../Viewer/Admin/Admin_views/Admin_subViews/display Item.php';
+        }catch(Exception $exc){
+            echo $exc->getMessage();
+        }
+    }
 }
