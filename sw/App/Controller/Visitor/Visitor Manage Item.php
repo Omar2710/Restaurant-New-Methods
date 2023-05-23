@@ -67,6 +67,12 @@ if ($_POST OR @$_GET['action']) {
        include "../../Viewer/Visitor/Visitor_views/Visitor_subViews/Category Meals.php";
         
     }
+    if (isset($_GET['action']) AND $_GET['action'] == "add_to_cart") { // choose an item  
+         
+        $item = fooditem::displayItemByID($_GET['id']);
+        
+         include "../../Viewer/Visitor/Visitor_views/Visitor_subViews/add Item to Cart.php";
+     }
 
     if(isset($_POST['submit']) && ($_POST['submit'] == 'submit_to_cart')){ // enter number of items
         // post >>  [ID] => [number_of_item] => 5 [submit] => submit_to_cart 

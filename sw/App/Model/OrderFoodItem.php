@@ -68,6 +68,26 @@ class OrderFoodItem{
 		
 	}
 
+
+	public function addToOrder($data){
+		$this->ConnectToDB();
+		$tblName = "orderfooditem";
+		$keys=array();
+	    $values=array(); 
+	    foreach($data as $key => $value){
+	        
+	        $val="'$value'";
+	        array_push($keys,$key);
+	        array_push($values,$val);
+	    }
+	    
+	    $tblkeys = implode($keys , ',');
+	    $datavalues = implode($values , ',') ;
+	    $stmt = $this->dbo->prepare("INSERT INTO $tblName ($tblkeys) VALUES($datavalues)");
+	    return $stmt->execute();
+	    //echo "INSERT INTO $tblName ($tblkeys) VALUES($datavalues)";
+	}
+
     public static function updateNumberOfItem($orderId,$number,$itemId,$numberOfpreviousItem){
 		self::ConnectToDB2();
 		$tablename = "orderfooditem";
@@ -87,6 +107,14 @@ class OrderFoodItem{
    
 	}
 
+	public function calculate(){
+		
+		$itemPrice = fooditem::getItemPrice($this->foodItemID);
+		$this->price = $itemPrice['Price'] * ($this->foodItemNumber);
+		
+		return $this->price;
+	}
+  
 
 	public static function getAllItemOfOrder($orderId){
 		self::ConnectToDB2();
