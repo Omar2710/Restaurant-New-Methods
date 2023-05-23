@@ -200,7 +200,7 @@ class fooditem{
         }else{
         echo "error happend";
     }
-
+    }
     public static function DeleteItem($ID){
 		self::ConnectToDB();
         $tableName = "fooditems";
@@ -227,7 +227,7 @@ class fooditem{
     }
 
 }
-}
+
  
 ?>
 
